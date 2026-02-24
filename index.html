@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pos Ronda Godong</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <style>
+        
+    </style>
+</head>
+<body>
+
+<div id="login-overlay">
+    <div class="login-box">
+        <h2>🌙 Login Ronda</h2>
+        <p>Masukkan namamu untuk masuk</p>
+        <input type="text" id="username-input" placeholder="Nama Lengkap...">
+        <button onclick="login()">Masuk ke Dashboard</button>
+
+        <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+            <button onclick="resetPerangkatAdmin()" style="background: none; color: #475569; font-size: 0.7rem; text-decoration: underline; border: none; cursor: pointer; opacity: 0.5; width: auto;">
+                🛠️ Reset Kunci Identitas Perangkat (Admin Only)
+            </button>
+        </div>
+    </div>
+</div>
+
+<header>
+    <h1 id="welcome-text">🌙 Pos Ronda Stasuin Godong</h1>
+    <p>Pos Ronda Digital RT 05 RW 03</p>
+</header>
+
+<nav>
+    <a href="#absensi">Absensi</a>
+    <a href="#anggota">Tim</a>
+    <a href="#jadwal">Jadwal</a>
+    <a href="#catur">Catur</a>
+    <a href="#" onclick="logout()" style="color: var(--accent);">Logout</a>
+</nav>
+
+<div class="container">
+    
+    <section id="absensi">
+        <h2>📍 Absensi Jaga Malam</h2>
+        <div class="absensi-area">
+            <p id="user-display">Halo, <strong>Tamu</strong>!</p>
+            <p style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 15px;">Klik tombol di bawah saat kamu sampai di pos.</p>
+            <button class="btn-absen" onclick="submitAbsen()">🚀 MULAI JAGA SEKARANG</button>
+        </div>
+        
+        <h3 style="margin-top: 30px; font-size: 1rem; color: var(--primary);">Log Kehadiran Malam Ini:</h3>
+        <ul id="log-absensi">
+            </ul>
+        <button onclick="clearAbsen()" style="margin-top: 15px; background: none; color: #666; font-size: 0.7rem; text-decoration: underline; width: auto;">Reset Log (Admin)</button>
+    </section>
+
+    <section id="anggota">
+        <h2>👥 Personel Elit</h2>
+        <div class="card-grid">
+            <div class="member-card">
+                <img src="https://i.pravatar.cc/150?u=rt" alt="Pak RT">
+                <h3>Pak RT</h3>
+                <span class="badge" style="background: var(--success);">Komandan</span>
+            </div>
+            <div class="member-card">
+                <img src="https://i.pravatar.cc/150?u=pendi" alt="Mas Pendi">
+                <h3>Mas Pendi</h3>
+                <span class="badge">Senter</span>
+            </div>
+            <div class="member-card">
+                <img src="https://i.pravatar.cc/150?u=giman" alt="Pak Giman">
+                <h3>Pak Giman</h3>
+                <span class="badge">Logistik</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="jadwal">
+        <h2>📅 Jadwal Jaga</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Malam</th><th>Tim Jaga</th><th>Logistik</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Senin</td><td>Pak Ten & Lek To</td><td>Gorengan</td></tr>
+                    <tr><td>Rabu</td><td>Lek Karno & Pak Giman</td><td>Kopi</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="catur">
+        <h2>🏆 Leaderboard Catur</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Peringkat</th><th>Pemain</th><th>Poin</th></tr>
+                </thead>
+                <tbody>
+                    <tr style="background: rgba(251,191,36,0.1);"><td>1 👑</td><td>Pak Giman</td><td>2100</td></tr>
+                    <tr><td>2</td><td>Pak RT</td><td>1850</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <a href="#" class="footer-logo">🌙 Pos Ronda Stasuin Godong</a>
+        <p class="footer-text">
+            Menjaga keamanan lingkungan dengan semangat kebersamaan dan teknologi digital. 
+            Satu senter, sejuta kopi, keamanan tetap nomor satu.
+        </p>
+        
+        <div class="footer-links">
+            <a href="#absensi">Absensi</a>
+            <a href="#anggota">Personel</a>
+            <a href="#jadwal">Jadwal</a>
+            <a href="#catur">Leaderboard</a>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 Pos Ronda Digital v4.0. <br> 
+            Handcrafted with ❤️ by <b>Davictor Qawighany</b> | RT 05 RW 03
+        </div>
+    </div>
+</footer>
+
+<script>
+    // FUNGSI LOGIN
+    function login() {
+        const name = document.getElementById('username-input').value;
+        if (name.trim() !== "") {
+            localStorage.setItem('rondaUser', name);
+            checkLogin();
+        } else {
+            alert("Nama jangan dikosongin ya Pak/Mas!");
+        }
+    }
+
+    function checkLogin() {
+        const user = localStorage.getItem('rondaUser');
+        if (user) {
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('user-display').innerHTML = `Halo, <strong>${user}</strong>!`;
+            
+            // Cek apakah user ini sudah absen di sesi ini
+            const hasAbsen = localStorage.getItem('hasAbsenCurrentSession');
+            if (hasAbsen === 'true') {
+                setButtonDisabled();
+            }
+            
+            renderAbsen();
+        }
+    }
+
+    function logout() {
+        // Hapus user dan status absen sesi ini agar bisa absen lagi setelah login ulang
+        localStorage.removeItem('rondaUser');
+        localStorage.removeItem('hasAbsenCurrentSession');
+        location.reload();
+    }
+
+    // FUNGSI ABSENSI
+    function submitAbsen() {
+        const user = localStorage.getItem('rondaUser');
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
+                        now.getMinutes().toString().padStart(2, '0');
+        
+        let logs = JSON.parse(localStorage.getItem('rondaLogs')) || [];
+        
+        // Simpan ke log
+        logs.unshift({ name: user, time: timeStr });
+        localStorage.setItem('rondaLogs', JSON.stringify(logs));
+        
+        // Tandai bahwa sesi ini sudah absen
+        localStorage.setItem('hasAbsenCurrentSession', 'true');
+        
+        setButtonDisabled();
+        renderAbsen();
+        alert("Absen berhasil! Selamat bertugas 🫡");
+    }
+
+    function setButtonDisabled() {
+        const btn = document.querySelector('.btn-absen');
+        btn.disabled = true;
+        btn.innerHTML = "✅ SUDAH ABSEN MALAM INI";
+        btn.style.background = "#475569"; // Warna abu-abu mendem
+        btn.style.cursor = "not-allowed";
+        btn.style.transform = "none";
+    }
+
+    function renderAbsen() {
+        const logUl = document.getElementById('log-absensi');
+        const logs = JSON.parse(localStorage.getItem('rondaLogs')) || [];
+        
+        logUl.innerHTML = logs.map(log => `
+            <li>
+                <span>👤 ${log.name}</span>
+                <span style="color: var(--primary); font-weight: bold;">⏱️ ${log.time} WIB</span>
+            </li>
+        `).join('');
+    }
+
+    function clearAbsen() {
+        if(confirm("Hapus semua log absen malam ini?")) {
+            localStorage.removeItem('rondaLogs');
+            localStorage.removeItem('hasAbsenCurrentSession'); // Reset juga status tombol
+            location.reload();
+        }
+    }
+
+    // FUNGSI ABSENSI (Update dengan Hari & Tanggal)
+    function submitAbsen() {
+        const user = localStorage.getItem('rondaUser');
+        const now = new Date();
+        
+        // Ambil Nama Hari
+        const hariArr = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        const hari = hariArr[now.getDay()];
+        
+        // Format Tanggal (DD/MM/YYYY)
+        const tanggal = now.getDate().toString().padStart(2, '0') + "/" + 
+                        (now.getMonth() + 1).toString().padStart(2, '0') + "/" + 
+                        now.getFullYear();
+        
+        // Format Jam
+        const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
+                        now.getMinutes().toString().padStart(2, '0');
+        
+        let logs = JSON.parse(localStorage.getItem('rondaLogs')) || [];
+        
+        // Simpan ke log dengan data tambahan
+        logs.unshift({ 
+            name: user, 
+            time: timeStr, 
+            hari: hari, 
+            tanggal: tanggal 
+        });
+        
+        localStorage.setItem('rondaLogs', JSON.stringify(logs));
+        
+        // Tandai bahwa sesi ini sudah absen
+        localStorage.setItem('hasAbsenCurrentSession', 'true');
+        
+        setButtonDisabled();
+        renderAbsen();
+        alert("Absen berhasil! Selamat bertugas 🫡");
+    }
+
+    // FUNGSI TAMPILKAN ABSEN (Update Tampilan Log)
+    function renderAbsen() {
+        const logUl = document.getElementById('log-absensi');
+        const logs = JSON.parse(localStorage.getItem('rondaLogs')) || [];
+        
+        logUl.innerHTML = logs.map(log => `
+            <li style="display: flex; flex-direction: column; gap: 5px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 600;">👤 ${log.name}</span>
+                    <span style="color: var(--primary); font-weight: bold;">⏱️ ${log.time} WIB</span>
+                </div>
+                <div style="font-size: 0.75rem; opacity: 0.6; display: flex; gap: 10px;">
+                    <span>📅 ${log.hari}, ${log.tanggal}</span>
+                </div>
+            </li>
+        `).join('');
+    }
+
+    // FUNGSI LOGIN DENGAN KUNCI IDENTITAS
+    function login() {
+        const nameInput = document.getElementById('username-input').value.trim();
+        
+        if (nameInput === "") {
+            alert("Nama jangan dikosongin ya Pak/Mas!");
+            return;
+        }
+
+        // Cek apakah sudah ada nama yang pernah terdaftar di perangkat ini
+        const registeredName = localStorage.getItem('registeredUserOnDevice');
+
+        if (registeredName) {
+            // Jika sudah ada nama terdaftar, cek apakah input sama dengan nama tersebut
+            if (nameInput.toLowerCase() !== registeredName.toLowerCase()) {
+                alert("⚠️ PERINGATAN: Perangkat ini sudah terdaftar atas nama '" + registeredName + "'. Silakan masukkan nama yang sesuai!");
+                return; // Berhenti di sini, tidak bisa login
+            }
+        } else {
+            // Jika belum ada nama terdaftar (pertama kali pakai), daftarkan nama ini selamanya
+            localStorage.setItem('registeredUserOnDevice', nameInput);
+        }
+
+        // Jika lolos pengecekan, lanjut login
+        localStorage.setItem('rondaUser', nameInput);
+        checkLogin();
+    }
+
+    // FUNGSI LOGOUT (Tetap simpan registeredUserOnDevice)
+    function logout() {
+        // Kita HANYA menghapus sesi aktif, tapi TIDAK menghapus 'registeredUserOnDevice'
+        localStorage.removeItem('rondaUser');
+        localStorage.removeItem('hasAbsenCurrentSession');
+        location.reload();
+    }
+
+    // TAMBAHAN: Fungsi untuk Admin jika ingin ganti HP ke orang lain
+    function resetPerangkatAdmin() {
+        if(confirm("Apakah Anda yakin ingin menghapus kunci identitas di perangkat ini? (Hanya untuk Admin)")) {
+            localStorage.clear();
+            alert("Perangkat direset. Sekarang bisa memasukkan nama baru.");
+            location.reload();
+        }
+    }
+
+    // FUNGSI UNTUK RESET KUNCI PERANGKAT DENGAN PASSWORD
+    function resetPerangkatAdmin() {
+    // 1. Minta Password Admin
+    const passwordInput = prompt("Masukkan PIN Admin untuk mereset perangkat:");
+    
+    // Tentukan password di sini (Contoh: 1234)
+    const passwordBenar = "1234";
+
+    if (passwordInput === null) return; // Jika user menekan 'Cancel'
+
+    if (passwordInput === passwordBenar) {
+        // 2. Verifikasi keamanan tambahan
+        const konfirmasi = confirm("⚠️ Password benar. Anda yakin ingin menghapus kunci nama dan semua data di perangkat ini?");
+        
+        if (konfirmasi) {
+            // Menghapus seluruh data (Kunci Nama, Log Absen, Status Sesi)
+            localStorage.clear();
+            
+            alert("✅ Perangkat berhasil direset! Sekarang Anda bisa memasukkan nama baru.");
+            
+            // Muat ulang halaman untuk kembali ke layar login awal
+            location.reload();
+        }
+    } else {
+        alert("❌ Password Salah! Akses ditolak.");
+    }
+    }
+
+    // Jalankan pengecekan saat halaman dimuat
+    window.onload = checkLogin;
+</script>
+
+</body>
+</html>
